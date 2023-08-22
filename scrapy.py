@@ -56,7 +56,7 @@ def get_contas_a_pagar(Token):
     }
 
     response = requests.get( BASE_URL + 'faturas?situacao[]=ABER&situacao[]=REAV&situacao[]=TRAN', headers=headers,)
-    df = pd.read_json(response.text)
+    df = pd.json_normalize(response.json())
     df.to_csv('contas_a_pagar.csv', index=False, sep=';', decimal=',')
     return df
 
@@ -82,7 +82,7 @@ def get_historico(Token):
 
     response = requests.get( BASE_URL + 'faturas?situacao[]=PAGA&situacao[]=PAGR', headers=headers)
 
-    df = pd.read_json(response.text)
+    df = pd.json_normalize(response.json())
     df.to_csv('historico.csv', index=False, sep=';', decimal=',')
     return df
 
